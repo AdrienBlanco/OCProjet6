@@ -48,7 +48,7 @@ filterByCategory();
 function filterByCategory() {
 
     //Fonction pour vider la gallerie
-    function clearGallery() {
+    function clearWorks() {
         document.querySelector(".gallery").innerHTML = "";
     };
 
@@ -65,12 +65,12 @@ function filterByCategory() {
             let filterByClass = button.className;
             if(filterByClass === 'no-filter'){
                 button.setAttribute('id','filter-selected');
-                clearGallery();
+                clearWorks();
                 generateWorks(works);
             } else {
                 button.setAttribute('id','filter-selected');
                 let filteredWorks = works.filter(work => work.categoryId == filterByClass);
-                clearGallery();
+                clearWorks();
                 generateWorks(filteredWorks);
             }
         });
