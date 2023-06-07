@@ -9,21 +9,22 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
-	<script type="module" src=".//assets/scripts/gallery.js"></script>
+	<script type="module" src="./assets/scripts/gallery.js"></script>
 </head>
 <body>
 <header>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
 		<ul>
-			<li>projets</li>
-			<li>contact</li>
-			<li>login</li>
+			<li class="nav-selected">projets</li>
+			<li><a href="#contact">contact</a></li>
+			<li><a href="./assets/pages/login.html">login</a></li>
+			<!--<li class="nav-list">logout</li>-->
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
 </header>
-<main>
+<main>	
 	<section id="introduction">
 		<figure>
 			<img src="./assets/images/sophie-bluel.png" alt="photo">
@@ -38,28 +39,27 @@
 	<section id="portfolio">
 		<h2>Mes Projets</h2>
 		<ul class="filters">
-			<li class="no-filter" id="filter-selected">Tous</li>
+			<li class="no-filter filter-selected">Tous</li>
 			<!-- Génération des boutons de filtrage via JS-->
 		</ul>		
 		<div class="gallery">
 		<!-- Génération de la gallerie via JS-->	
 		</div>
 	</section>
-	<section id="contact">
+	<section id="contact" class="form">
 		<h2>Contact</h2>
 		<p>Vous avez un projet ? Discutons-en !</p>
 		<form action="#" method="post">
 			<label for="name">Nom</label>
 			<input type="text" name="name" id="name">
-			<label for="email">Email</label>
-			<input type="email" name="email" id="email">
+			<label for="email">E-mail</label>
+			<input type="email" name="email" class="email">
 			<label for="message">Message</label>
 			<textarea name="message" id="message" cols="30" rows="10"></textarea>
 			<input type="submit" value="Envoyer">
 		</form>
-	</section>
+	</section>	
 </main>
-
 <footer>
 	<nav>
 		<ul>

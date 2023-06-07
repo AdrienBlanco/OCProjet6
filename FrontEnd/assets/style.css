@@ -56,10 +56,10 @@ body {
 header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0
+	margin: 50px 0;
 }
 section {
-	margin: 50px 0
+	margin: 50px 0;
 }
 
 h1{
@@ -93,6 +93,20 @@ nav ul {
 nav li {
 	padding: 0 10px;
 	font-size: 1.2em;
+	cursor: pointer;
+}
+
+nav a {
+	text-decoration: none;
+	color: black;
+}
+
+nav a:hover {
+	color: #B1663C;
+}
+
+.nav-selected {
+	font-weight: bold;
 }
 
 li:hover {
@@ -142,9 +156,10 @@ li:hover {
 	width: auto;
 	text-align: center;
 	border-radius: 60px ;
+	cursor: pointer;
 }	
 
-#filter-selected {
+.filters li.filter-selected {
 	background-color: #1D6154;
 	color: white;
 }
@@ -159,38 +174,52 @@ li:hover {
 
 .gallery img {
 	width: 100%;
+}
 
-}
-#contact {
+.form {
 	width: 50%;
-margin: auto;
+	margin: auto;
 }
-#contact > * {
+
+.form > * {
 	text-align: center;
 
 }
-#contact h2{
+.form h2{
 	margin-bottom: 20px;
 }
-#contact form {
+.form form {
 	text-align: left;
 	margin-top:30px;
 	display: flex;
 	flex-direction: column;
 }
 
-#contact input {
+.form input {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
-#contact label {
+.form label {
 	margin: 2em 0 1em 0;
 }
-#contact textarea {
+.form textarea {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+.form a {
+	text-decoration-line: underline;
+	display: flex;
+	justify-content: center;
+	color: #3D3D3D;
+}
+
+.form .login-error {
+	display: flex;
+	justify-content: center;
+	color: #B1663C;
 }
 
 input[type="submit"]{
@@ -204,10 +233,18 @@ input[type="submit"]{
 	border-radius: 60px ;
 }
 
-footer nav ul {
-	display: flex;
-	justify-content: flex-end;
-	margin: 2em
+input[type="submit"]:hover{
+	background-color: #0E2F28;
+	cursor: pointer;
 }
 
+#login {
+	margin-top: 150px;
+	height: 800px;
+}
 
+footer nav ul{
+	display: flex;
+	justify-content: flex-end;
+	margin: 2em;
+}
