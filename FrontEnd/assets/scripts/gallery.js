@@ -74,9 +74,3 @@ function filterByCategory() {
         });
     });
 };
-
-//Gestion du status User Login / Logout dans le local storage
-const connected = window.localStorage.getItem('validUser');
-console.log(connected);
-
-const logout = window.localStorage.removeItem('validUser');

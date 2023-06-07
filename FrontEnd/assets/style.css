@@ -47,12 +47,15 @@ table {
 	border-spacing: 0;
 }
 /** end reset css**/
-body {
+.main-container {
 	max-width: 1140px;
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 }
+
+/*******header********/
+
 header {
 	display: flex;
 	justify-content: space-between;
@@ -96,6 +99,10 @@ nav li {
 	cursor: pointer;
 }
 
+nav img {
+	width: 20px;
+}
+
 nav a {
 	text-decoration: none;
 	color: black;
@@ -112,22 +119,34 @@ nav a:hover {
 li:hover {
 	color: #B1663C;
 }
+
+/*******intro homepage********/
+
 #introduction {
 	display: flex;
 	align-items: center;
 }
 #introduction figure {
-	flex: 1
+	flex: 1;
 }
+
 #introduction img {
 	display: block;
 	margin: auto;
 	width: 80%;
 }
 
-#introduction article {
-	flex: 1
+#introduction figcaption {
+	display: block;
+	margin: 10px auto;
+	width: 80%;
+	cursor: pointer;
 }
+
+#introduction article {
+	flex: 1;
+}
+
 #introduction h2 {
 	margin-bottom: 1em;
 }
@@ -135,6 +154,9 @@ li:hover {
 #introduction p {
 	margin-bottom: 0.5em;
 }
+
+/*******gallery********/
+
 #portfolio h2 {
 	text-align: center;
 	margin-bottom: 1em;
@@ -175,6 +197,8 @@ li:hover {
 .gallery img {
 	width: 100%;
 }
+
+/*******forms********/
 
 .form {
 	width: 50%;
@@ -242,6 +266,47 @@ input[type="submit"]:hover{
 	margin-top: 150px;
 	height: 800px;
 }
+
+/*******edit mode********/
+
+.edit-banner {
+	font-family: 'Work Sans';
+	background-color: black;
+	color: white;
+	font-size: 16px;
+	height: 59px;
+	gap: 20px;
+	justify-content: center;
+	align-items: center;
+}
+
+.edit-banner .edit-banner-btn{
+	background-color: white;
+	color: black;
+	font-size: 14px;
+	font-weight: bold;
+	width: 216px;
+	height: 38px;
+	border-radius: 60px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.edit-portfolio {
+	margin-top: -53px;
+	margin-left: 30%;
+	cursor: pointer;	
+	justify-content: center;
+	align-items: center;
+}
+
+.edit i {
+	margin-right: 10px;
+	font-size: 17px;
+}
+
+/*******footer********/
 
 footer nav ul{
 	display: flex;
