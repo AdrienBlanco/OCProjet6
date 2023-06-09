@@ -1,10 +1,10 @@
 // Récupération des travaux depuis l'API
 const responseWorks = await fetch('http://localhost:5678/api/works/');
 const works = await responseWorks.json();
-    
+
 //Génération des travaux présents sur l'API
 generateWorks(works);
-async function generateWorks(works){    
+export async function generateWorks(works) {
     for (let i = 0; i < works.length; i++) {
         const work = works[i];
         //Récupération emplacement du DOM pour la création des éléments
@@ -30,7 +30,7 @@ const categories = await responseCategories.json();
 
 //Génération des boutons de filtrage
 generateCategories(categories);
-async function generateCategories(categories){
+async function generateCategories(categories) {
     for (let i = 0; i < categories.length; i++) {
         const category = categories[i];
         //Récupération emplacement du DOM pour la création des boutons filtres
@@ -45,7 +45,7 @@ async function generateCategories(categories){
 };
 
 //Fonction pour vider la gallerie
-function clearWorks(){document.querySelector(".gallery").innerHTML = ""};
+function clearWorks() { document.querySelector(".gallery").innerHTML = "" };
 
 //Filtrage par catégorie
 filterByCategory();
@@ -59,13 +59,13 @@ function filterByCategory() {
         //ajout d'un listener pour chaque "button"
         button.addEventListener("click", function () {
             //Suppression de la classe "filter-selected" sur chaque "button" de "filterButtons"
-            filterButtons.forEach(button => {button.classList.remove('filter-selected')});
+            filterButtons.forEach(button => { button.classList.remove('filter-selected') });
             //Récupération de l'Id du button sélectionné grâce à la valeur de l'attribut data-category-id
             let selectedCategoryId = button.dataset.categoryId;
             //Ajout de la classe "filter-selected" sur le button sélectionné et suppression de la gallerie de travaux
-            button.classList.add('filter-selected'); 
+            button.classList.add('filter-selected');
             clearWorks();
-            if(button.classList.contains('no-filter')) { //Si le button sélectionné contient la classe "no-filter", générer tous les travaux
+            if (button.classList.contains('no-filter')) { //Si le button sélectionné contient la classe "no-filter", générer tous les travaux
                 generateWorks(works);
             } else { //Sinon générer uniquement les travaux filtrés par Id 
                 let filteredWorks = works.filter(work => work.categoryId == selectedCategoryId);
@@ -74,3 +74,6 @@ function filterByCategory() {
         });
     });
 };
+
+let test = document.querySelector(h1);
+test = null;

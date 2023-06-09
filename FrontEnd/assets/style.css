@@ -31,6 +31,11 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
 }
+
+* {
+	box-sizing: border-box;
+}
+
 ol, ul {
 	list-style: none;
 }
@@ -103,12 +108,12 @@ nav img {
 	width: 20px;
 }
 
-nav a {
+a {
 	text-decoration: none;
 	color: black;
 }
 
-nav a:hover {
+a:hover {
 	color: #B1663C;
 }
 
@@ -140,7 +145,6 @@ li:hover {
 	display: block;
 	margin: 10px auto;
 	width: 80%;
-	cursor: pointer;
 }
 
 #introduction article {
@@ -293,9 +297,15 @@ input[type="submit"]:hover{
 	justify-content: center;
 }
 
+.edit-intro {
+	cursor: pointer;
+	width: 6em;
+}
+
 .edit-portfolio {
-	margin-top: -53px;
-	margin-left: 30%;
+	width: 6em;
+	margin-top: -52px;
+	margin-left: 61%;
 	cursor: pointer;	
 	justify-content: center;
 	align-items: center;
@@ -304,6 +314,30 @@ input[type="submit"]:hover{
 .edit i {
 	margin-right: 10px;
 	font-size: 17px;
+}
+
+/*******modale********/
+
+.modal {
+	position: fixed;
+	left: 0;
+	top: 0; /*à passer à 59px pour commencer sous le bandeau du mode édition */
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.3);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.modal-wrapper {
+	overflow: auto;
+	background-color: white;
+	width: 630px;
+	max-width: calc(100vw - 20px);
+	max-height: calc(100vh - 20px);
+	border-radius: 10px;
+	padding: 55px 105px;
 }
 
 /*******footer********/
