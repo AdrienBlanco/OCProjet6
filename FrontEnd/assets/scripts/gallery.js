@@ -4,11 +4,13 @@ const works = await responseWorks.json();
 
 //Génération des travaux présents sur l'API
 generateWorks(works);
-export async function generateWorks(works) {
+async function generateWorks(works) {
+    //Récupération emplacement du DOM pour la création des éléments
+    const divGallery = document.querySelector('#portfolio .gallery');
+    const modalGallery = document.querySelector('#modal .gallery');
+    console.log(modalGallery);
     for (let i = 0; i < works.length; i++) {
         const work = works[i];
-        //Récupération emplacement du DOM pour la création des éléments
-        const divGallery = document.querySelector('.gallery');
         //Création des balises figure pour chaque travaux
         const workElement = document.createElement('figure');
         //Création des balises à l'intérieur de chaque travaux et ajout du contenu
@@ -21,6 +23,30 @@ export async function generateWorks(works) {
         divGallery.appendChild(workElement);
         workElement.appendChild(imageElement);
         workElement.appendChild(captionElement);
+        // if (modalGallery) {
+        //     modalGallery.appendChild(workElement);
+        // }
+        
+    }
+    for (let i = 0; i < works.length; i++) {
+        const work = works[i];
+        //Création des balises figure pour chaque travaux
+        const workElement = document.createElement('figure');
+        //Création des balises à l'intérieur de chaque travaux et ajout du contenu
+        const imageElement = document.createElement('img');
+        imageElement.src = work.imageUrl;
+        imageElement.alt = work.title;
+        const captionElement = document.createElement('figcaption');
+        captionElement.innerText = work.title;
+        //Rattachement des balises aux parents
+        if (modalGallery) {
+        modalGallery.appendChild(workElement);
+        workElement.appendChild(imageElement);
+        workElement.appendChild(captionElement);
+        // 
+        //     modalGallery.appendChild(workElement);
+        }
+        
     }
 };
 
@@ -75,5 +101,4 @@ function filterByCategory() {
     });
 };
 
-let test = document.querySelector(h1);
-test = null;
+var test = 'test';

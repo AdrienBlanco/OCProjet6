@@ -12,7 +12,6 @@ const openModal = async function (e) {
     modal = await loadModal(target);
     focusables = Array.from(modal.querySelectorAll(focusableSelector));
     previouslyFocusedElement = document.querySelector(':focus');
-    modal.style.display = null;
     focusables[0].focus();
     modal.setAttribute('aria-modal', 'true');
     modal.addEventListener('click', closeModal);
@@ -64,7 +63,6 @@ const loadModal = async function (url) {
 
 document.querySelectorAll('.modal-open').forEach(a => {
     a.addEventListener('click', openModal);
-
 });
 
 window.addEventListener('keydown', function (e) {
@@ -77,3 +75,5 @@ window.addEventListener('keydown', function (e) {
 });
 
 /////////// gestion des photos
+
+
