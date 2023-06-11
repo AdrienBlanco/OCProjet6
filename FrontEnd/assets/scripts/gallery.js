@@ -35,14 +35,18 @@ async function generateWorks(works) {
         imageElement.alt = work.title;
         const captionElement = document.createElement('figcaption');
         captionElement.innerText = 'éditer';
-        const iconElement = document.createElement('i');
-        iconElement.setAttribute('class', 'fa-solid fa-trash-can modal-trash');
+        const trashIcon = document.createElement('i');
+        trashIcon.setAttribute('class', 'fa-solid fa-trash-can modal-icons icon-trash');
+        const crossIcon = document.createElement('i');
+        crossIcon.setAttribute('class', 'fa-solid fa-arrows-up-down-left-right modal-icons icon-cross');
+        crossIcon.style.visibility = ('hidden');
         //Rattachement des balises aux parents
         if (modalGallery) {
         modalGallery.appendChild(workElement);
         workElement.appendChild(imageElement);
         workElement.appendChild(captionElement);
-        workElement.appendChild(iconElement);
+        workElement.appendChild(trashIcon);
+        workElement.appendChild(crossIcon);
         }
     }
 };
@@ -107,5 +111,5 @@ function filterByCategory() {
 export {
     generateWorks, 
     works,
-    clearWorks
+    clearWorks,
 };

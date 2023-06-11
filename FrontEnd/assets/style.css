@@ -377,15 +377,25 @@ input[type="submit"]:hover{
 	font-size: 20px;
 }
 
-.modal-trash {
+.modal-icons {
 	color: white;
 	background-color: black;
 	padding: 5px;
 	border-radius: 2px;
-	position: relative;
-	left: 26px;
-	top: -115px;
 	font-size: 9px;
+}
+
+.icon-trash {
+	position: relative;
+	left: 35px;
+	top: -115px;
+}
+
+.icon-cross {
+	position: relative;
+	left: -5px;
+	top: -115px;
+	visibility: hidden;
 }
 
 .modal-grey-line {
@@ -403,6 +413,7 @@ input[type="submit"]:hover{
 .modal-delete {
 	color: #D65353;
 	font-size: 14px;
+	margin-bottom: 8px;
 }
 
 /*******footer********/

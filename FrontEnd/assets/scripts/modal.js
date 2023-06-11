@@ -14,7 +14,7 @@ const openModal = async function (e) {
     if (modal == null) {
         modal = await loadModal(target);
         generateWorks(works);
-        // figtest();
+        figtest();
         focusables = Array.from(modal.querySelectorAll(focusableSelector));
         previouslyFocusedElement = document.querySelector(':focus');
         focusables[0].focus();
@@ -26,7 +26,7 @@ const openModal = async function (e) {
         modal.style.display = null;
         clearWorks();
         generateWorks(works);
-        // figtest();
+        figtest();
     };
 };
 
@@ -82,15 +82,14 @@ window.addEventListener('keydown', function (e) {
 
 /////////// gestion des photos
 
-// function figtest() {
-//     let crossArrow = null;
-//     let figures = document.querySelectorAll('.modal-gallery figure');
-//     figures.forEach(f => {
-//         f.addEventListener('click', function () {
-//             crossArrow = document.createElement('i');
-//             crossArrow.setAttribute('class', 'fa-solid fa-arrows-up-down-left-right cross-arrow');
-//             f.appendChild(crossArrow);
-//         })
-            
-//     });
-// };
+function figtest() {
+    let figures = document.querySelectorAll('.modal-gallery figure');
+    let crossIcons = document.querySelectorAll('.modal-gallery .icon-cross')
+    figures.forEach(f => {
+        f.addEventListener('click', function () {
+            crossIcons.forEach(f => {
+                f.style.visibility = 'none';
+            })
+        });
+    });
+};
