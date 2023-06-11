@@ -14,7 +14,7 @@ const openModal = async function (e) {
     if (modal == null) {
         modal = await loadModal(target);
         generateWorks(works);
-        figtest();
+        toggleCrossIcon();
         focusables = Array.from(modal.querySelectorAll(focusableSelector));
         previouslyFocusedElement = document.querySelector(':focus');
         focusables[0].focus();
@@ -26,7 +26,7 @@ const openModal = async function (e) {
         modal.style.display = null;
         clearWorks();
         generateWorks(works);
-        figtest();
+        toggleCrossIcon();
     };
 };
 
@@ -80,16 +80,45 @@ window.addEventListener('keydown', function (e) {
     };
 });
 
-/////////// gestion des photos
 
-function figtest() {
+//Affichage de l'icone croix au clic sur les éléments de la galerie
+function toggleCrossIcon() {
     let figures = document.querySelectorAll('.modal-gallery figure');
-    let crossIcons = document.querySelectorAll('.modal-gallery .icon-cross')
     figures.forEach(f => {
-        f.addEventListener('click', function () {
-            crossIcons.forEach(f => {
-                f.style.visibility = 'none';
-            })
-        });
+        f.addEventListener('click', function (event) {
+                console.log(f);
+                console.log(event.target)
+                const crossIcon = event.target.querySelector('.icon-cross')
+                crossIcon.classList.toggle('icon-toggle');
+            }, true)
+    });
+};
+
+//////////Suppression des photos
+
+function deleteWorks() {
+    //Ajout d'un eventListener sur le formulaire de connexion
+    document.querySelector('.modal-gallery .icon-trash').addEventListener('click', async function () {
+        //Récupération de la valeur saisie dans les champs email et password
+        const loginValue = {
+            email: event.target.querySelector("[name=email]").value,
+            password: event.target.querySelector("[name=password]").value
+        };
+        //Réécriture de la valeur des champs email et password au format Json
+        const loginValueJson = JSON.stringify(loginValue);
+        //Options de la requète fetch 
+        const requestOptions = {
+            method: 'DELETE',
+            headers: { "Content-Type": "application/json" },
+            body: loginValueJson
+        };
+        //requête API pour authentification du User
+        const responseLogin = await fetch('http://localhost:5678/api/works/{id}', requestOptions);
+        if (responseLogin.ok) { //Si l'authentication de l'utilisateur est ok (status 200)
+            let bearer = await responseLogin.json(); 
+            sessionStorage.setItem('accessToken', bearer.token); //Sauvegarde du Bearer token dans le sessionStorage
+            window.location.assign('../../index.html'); //Redirection vers la page principale du site
+
+        };
     });
 };

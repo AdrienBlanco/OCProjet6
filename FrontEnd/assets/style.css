@@ -395,6 +395,9 @@ input[type="submit"]:hover{
 	position: relative;
 	left: -5px;
 	top: -115px;
+}
+
+.icon-toggle {
 	visibility: hidden;
 }
 

@@ -38,8 +38,7 @@ async function generateWorks(works) {
         const trashIcon = document.createElement('i');
         trashIcon.setAttribute('class', 'fa-solid fa-trash-can modal-icons icon-trash');
         const crossIcon = document.createElement('i');
-        crossIcon.setAttribute('class', 'fa-solid fa-arrows-up-down-left-right modal-icons icon-cross');
-        crossIcon.style.visibility = ('hidden');
+        crossIcon.setAttribute('class', 'fa-solid fa-arrows-up-down-left-right modal-icons icon-cross icon-toggle');
         //Rattachement des balises aux parents
         if (modalGallery) {
         modalGallery.appendChild(workElement);
@@ -48,7 +47,7 @@ async function generateWorks(works) {
         workElement.appendChild(trashIcon);
         workElement.appendChild(crossIcon);
         }
-    }
+    };
 };
 
 // Récupération des catégories depuis l'API
