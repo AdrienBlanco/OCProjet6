@@ -1,3 +1,5 @@
+import { modal } from "./modal.js";
+
 // Récupération des travaux depuis l'API
 const responseWorks = await fetch('http://localhost:5678/api/works/');
 const works = await responseWorks.json();
@@ -6,9 +8,8 @@ const works = await responseWorks.json();
 generateWorks(works);
 async function generateWorks(works) {
     //Récupération emplacement du DOM pour la création des éléments
-    const divGallery = document.querySelector('#portfolio .gallery');
-    const modalGallery = document.querySelector('#modal .gallery');
-    console.log(modalGallery);
+    const portfolioGallery = document.querySelector('.portfolio-gallery');
+    const modalGallery = document.querySelector('.modal-gallery');
     for (let i = 0; i < works.length; i++) {
         const work = works[i];
         //Création des balises figure pour chaque travaux
@@ -20,13 +21,9 @@ async function generateWorks(works) {
         const captionElement = document.createElement('figcaption');
         captionElement.innerText = work.title;
         //Rattachement des balises aux parents
-        divGallery.appendChild(workElement);
+        portfolioGallery.appendChild(workElement);
         workElement.appendChild(imageElement);
         workElement.appendChild(captionElement);
-        // if (modalGallery) {
-        //     modalGallery.appendChild(workElement);
-        // }
-        
     }
     for (let i = 0; i < works.length; i++) {
         const work = works[i];
@@ -37,16 +34,16 @@ async function generateWorks(works) {
         imageElement.src = work.imageUrl;
         imageElement.alt = work.title;
         const captionElement = document.createElement('figcaption');
-        captionElement.innerText = work.title;
+        captionElement.innerText = 'éditer';
+        const iconElement = document.createElement('i');
+        iconElement.setAttribute('class', 'fa-solid fa-trash-can modal-trash');
         //Rattachement des balises aux parents
         if (modalGallery) {
         modalGallery.appendChild(workElement);
         workElement.appendChild(imageElement);
         workElement.appendChild(captionElement);
-        // 
-        //     modalGallery.appendChild(workElement);
+        workElement.appendChild(iconElement);
         }
-        
     }
 };
 
@@ -71,7 +68,13 @@ async function generateCategories(categories) {
 };
 
 //Fonction pour vider la gallerie
-function clearWorks() { document.querySelector(".gallery").innerHTML = "" };
+function clearWorks() { 
+    document.querySelector(".portfolio-gallery").innerHTML = "";
+    if (modal) {
+    document.querySelector(".modal-gallery").innerHTML = "";
+    }
+};
+
 
 //Filtrage par catégorie
 filterByCategory();
@@ -101,4 +104,8 @@ function filterByCategory() {
     });
 };
 
-var test = 'test';
+export {
+    generateWorks, 
+    works,
+    clearWorks
+};

@@ -1,6 +1,8 @@
+import { generateWorks, works, clearWorks } from "./gallery.js";
+
 //Paramétrage de la fenêtre modale
 
-let modal = null;
+export let modal = null;
 
 const focusableSelector = "button, a, input, textarea";
 let focusables = [];
@@ -9,26 +11,30 @@ let previouslyFocusedElement = null;
 const openModal = async function (e) {
     e.preventDefault();
     const target = e.target.getAttribute('href');
-    modal = await loadModal(target);
-    focusables = Array.from(modal.querySelectorAll(focusableSelector));
-    previouslyFocusedElement = document.querySelector(':focus');
-    focusables[0].focus();
-    modal.setAttribute('aria-modal', 'true');
-    modal.addEventListener('click', closeModal);
-    modal.querySelector('.modal-close').addEventListener('click', closeModal);
-    modal.querySelector('.modal-stop').addEventListener('click', stopPropagation);
+    if (modal == null) {
+        modal = await loadModal(target);
+        generateWorks(works);
+        // figtest();
+        focusables = Array.from(modal.querySelectorAll(focusableSelector));
+        previouslyFocusedElement = document.querySelector(':focus');
+        focusables[0].focus();
+        modal.setAttribute('aria-modal', 'true');
+        modal.addEventListener('click', closeModal);
+        modal.querySelector('.modal-close').addEventListener('click', closeModal);
+        modal.querySelector('.modal-stop').addEventListener('click', stopPropagation);
+    } else {
+        modal.style.display = null;
+        clearWorks();
+        generateWorks(works);
+        // figtest();
+    };
 };
 
 const closeModal = function (e) {
-    if (modal === null) return;
+    if (modal == undefined) return;
     if (previouslyFocusedElement !== null) previouslyFocusedElement.focus();
     e.preventDefault();
     modal.style.display = 'none';
-    modal.removeAttribute('aria-modal');
-    modal.removeEventListener('click', closeModal);
-    modal.querySelector('.modal-close').removeEventListener('click', closeModal);               
-    modal.querySelector('.modal-stop').removeEventListener('click', stopPropagation);
-    modal = null;
 };
 
 const stopPropagation = function (e) {
@@ -48,7 +54,7 @@ const focusInModal = function (e) {
         index = 0;
     };
     if (index < 0) {
-        index = focusables.length - 1; 
+        index = focusables.length - 1;
     }
     focusables[index].focus();
 };
@@ -76,4 +82,15 @@ window.addEventListener('keydown', function (e) {
 
 /////////// gestion des photos
 
-
+// function figtest() {
+//     let crossArrow = null;
+//     let figures = document.querySelectorAll('.modal-gallery figure');
+//     figures.forEach(f => {
+//         f.addEventListener('click', function () {
+//             crossArrow = document.createElement('i');
+//             crossArrow.setAttribute('class', 'fa-solid fa-arrows-up-down-left-right cross-arrow');
+//             f.appendChild(crossArrow);
+//         })
+            
+//     });
+// };
