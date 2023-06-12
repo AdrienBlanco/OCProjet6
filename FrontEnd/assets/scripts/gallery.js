@@ -24,7 +24,7 @@ async function generateWorks(works) {
         portfolioGallery.appendChild(workElement);
         workElement.appendChild(imageElement);
         workElement.appendChild(captionElement);
-    }
+    };
     for (let i = 0; i < works.length; i++) {
         const work = works[i];
         //Création des balises figure pour chaque travaux
@@ -42,11 +42,11 @@ async function generateWorks(works) {
         crossIcon.setAttribute('class', 'fa-solid fa-arrows-up-down-left-right modal-icons icon-cross icon-toggle');
         //Rattachement des balises aux parents
         if (modalGallery) {
-        modalGallery.appendChild(workElement);
-        workElement.appendChild(imageElement);
-        workElement.appendChild(captionElement);
-        workElement.appendChild(trashIcon);
-        workElement.appendChild(crossIcon); 
+            modalGallery.appendChild(workElement);
+            workElement.appendChild(imageElement);
+            workElement.appendChild(captionElement);
+            workElement.appendChild(trashIcon);
+            workElement.appendChild(crossIcon);
         }
     };
 };
@@ -56,26 +56,26 @@ const responseCategories = await fetch('http://localhost:5678/api/categories/');
 const categories = await responseCategories.json();
 
 //Génération des boutons de filtrage
-generateCategories(categories);
-async function generateCategories(categories) {
+generateCategories();
+async function generateCategories() {
+    //Récupération emplacement du DOM pour la création des éléments
+    const filters = document.querySelector('.filters');
     for (let i = 0; i < categories.length; i++) {
         const category = categories[i];
-        //Récupération emplacement du DOM pour la création des boutons filtres
-        const filters = document.querySelector('.filters');
         //Création des balises li pour chaque boutons
         const filterElement = document.createElement('li');
         filterElement.innerText = category.name;
         filterElement.dataset.categoryId = category.id;
         //Rattachement des balises aux parents
         filters.appendChild(filterElement);
-    }
+    };
 };
 
 //Fonction pour vider la gallerie
-function clearWorks() { 
+function clearWorks() {
     document.querySelector(".portfolio-gallery").innerHTML = "";
     if (modal) {
-    document.querySelector(".modal-gallery").innerHTML = "";
+        document.querySelector(".modal-gallery").innerHTML = "";
     }
 };
 
@@ -109,7 +109,7 @@ function filterByCategory() {
 };
 
 export {
-    generateWorks, 
+    generateWorks,
     works,
     clearWorks,
     categories

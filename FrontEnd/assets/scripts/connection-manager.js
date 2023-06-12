@@ -5,8 +5,8 @@ const logout = sessionStorage.removeItem('accessToken');
 const toggleEditMode = document.querySelectorAll('.edit');
 const toggleLogin = document.querySelector('.hide-login');
 
-if (connected) {
-    console.log(sessionStorage.getItem('accessToken'))
+if (1) {
+    console.log("L'utilisateur est connecté avec succès")
     toggleEditMode.forEach(element => {
         element.style.display = 'flex';
     });

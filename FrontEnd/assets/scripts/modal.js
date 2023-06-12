@@ -15,6 +15,7 @@ const openModal = async function (e) {
         toggleCrossIcon();
         deleteWorks();
         modalSwitchEvent();
+        generateCategoryOptions()
         modal.addEventListener('click', closeModal);
         modal.querySelector('.modal-close').addEventListener('click', closeModal);
         modal.querySelector('.modal-stop').addEventListener('click', stopPropagation);
@@ -106,4 +107,25 @@ function modalSwitchEvent() {
         modalSwitch(null, null);
     })  
 };
+
+//Génération de la liste des catégories pour l'ajout de projets
+async function generateCategoryOptions() {
+    const select = document.querySelector('#categories');
+    for (let i = 0; i < categories.length; i++) {
+        const category = categories[i];
+        //Création des balises options
+        const optionList = document.createElement('option');
+        optionList.innerText = category.name;
+        optionList.setAttribute('value', category.name);
+        //Rattachement des balises aux parents
+        if (select) {
+            select.appendChild(optionList);
+        };
+    };
+};
+
+//Validation de l'ajout de projet
+// function validate() {
+//     document.querySelector('#validate').style.backgroundColor = null;
+// }
 
