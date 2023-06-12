@@ -1,14 +1,33 @@
 <body>
-    <aside id="modal" class="modal" role="dialog" aria-labelledby="modal-title">
+    <aside id="modal" class="modal" role="dialog" aria-labelledby="modal-title" aria-modal="true">
         <div class="modal-wrapper modal-stop form">
-            <button class="modal-close"><i class="fa-solid fa-xmark"></i><span class="sr-only">Fermer le menu édition</span></button>
-            <p class="modal-title">Galerie photo</p>
-            <div class="modal-gallery"></div>
-            <div class="modal-grey-line"></div>
-            <form>
-            <input type="submit" value="Ajouter une photo">
+            <button class="modal-top-icons modal-close"><i class="fa-solid fa-xmark"></i><span class="sr-only">Fermer le menu
+                    édition</span></button>
+            <button class="modal2 modal-top-icons modal-arrow"><i class="fa-solid fa-arrow-left"></i><span class="sr-only">Retour à la
+                    galerie</span></button>
+            <p class="modal1 modal-title">Galerie photo</p>
+            <p class="modal2 modal-title">Ajout photo</p>
+            <div class="modal1 modal-gallery"></div>
+            <div class="modal1 modal-grey-line"></div>
+            <form class="modal1">
+                <input type="submit" value="Ajouter une photo">
             </form>
-            <p class="modal-delete">Supprimer la galerie</p>
+            <form class="modal2">
+                <label for="file"></label>
+                <input type="file" name="photo" id="photo">
+                <label for="title">Titre</label>
+                <input type="text" name="title" id="title">
+                <label for="categories">Catégorie</label>
+                <select name="categories" id="categories">
+                    <option value="empty"></option>
+                    <option value="dog">Dog</option>
+                    <option value="cat">Cat</option>
+                    <option value="hamster">Hamster</option>
+                </select>    
+                <div class="modal-grey-line"></div>
+                <input type="submit" value="Valider" style="background-color: #A7A7A7;">
+            </form>
+            <p class="modal1 modal-delete">Supprimer la galerie</p>
         </div>
     </aside>
 </body>

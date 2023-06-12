@@ -46,7 +46,7 @@ async function generateWorks(works) {
         workElement.appendChild(imageElement);
         workElement.appendChild(captionElement);
         workElement.appendChild(trashIcon);
-        workElement.appendChild(crossIcon);
+        workElement.appendChild(crossIcon); 
         }
     };
 };
@@ -112,4 +112,5 @@ export {
     generateWorks, 
     works,
     clearWorks,
+    categories
 };

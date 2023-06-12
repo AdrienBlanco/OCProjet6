@@ -218,14 +218,14 @@ li:hover {
 }
 .form form {
 	text-align: left;
-	margin-top:30px;
 	display: flex;
 	flex-direction: column;
 }
 
 .form input {
+	font-family: 'Work Sans';
 	height: 50px;
-	font-size: 1.2em;
+	font-size: 14px;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
@@ -266,6 +266,15 @@ input[type="submit"]:hover{
 	background-color: #0E2F28;
 	cursor: pointer;
 }
+
+form select {
+	font-family: 'Work Sans';
+	height: 50px;
+	font-size: 14px;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
 
 #login {
 	margin-top: 150px;
@@ -363,18 +372,26 @@ input[type="submit"]:hover{
 	text-align: center;
 	font-size: 26px;
 	padding-bottom: 45px;
+	justify-content: center;
+}
+
+.modal-top-icons {
+	background-color: transparent;
+	border: none;
+	font-size: 20px;
+	cursor: pointer;
 }
 
 .modal-close {
-	background-color: transparent;
-	border: none;
 	position: relative;
 	left: 468px;
 	top: -5px;
 }
 
-.modal-close i {
-	font-size: 20px;
+.modal-arrow {
+	position: relative;
+	left: -80px;
+	top: -30px;
 }
 
 .modal-icons {
@@ -389,6 +406,7 @@ input[type="submit"]:hover{
 	position: relative;
 	left: 35px;
 	top: -115px;
+	cursor: pointer;
 }
 
 .icon-cross {
@@ -408,15 +426,15 @@ input[type="submit"]:hover{
 	margin-top: 45px;
 }
 
-.modal input {
-	margin-top: 8px;
-	margin-bottom: 23px;
-}
-
 .modal-delete {
 	color: #D65353;
 	font-size: 14px;
 	margin-bottom: 8px;
+	cursor: pointer;
+}
+
+#modal .modal2 {
+	display: none;
 }
 
 /*******footer********/
