@@ -109,9 +109,11 @@ const requestDeleteOptions = {
 async function deleteWorks() {
     //Ajout des eventListener sur les icones trash-can
     document.querySelectorAll('.modal-gallery .icon-trash').forEach(icon => {
-        icon.addEventListener('click', async function () {
+        icon.addEventListener('click', async function (e) {
             const IdToDelete = icon.dataset.workId;
-            await fetch(`http://localhost:5678/api/works/${IdToDelete}`, requestDeleteOptions);
+            const deletetest = await fetch(`http://localhost:5678/api/works/${IdToDelete}`, requestDeleteOptions);
+            e.stopPropagation();
+            console.log(deletetest);
         })
     });
 };
