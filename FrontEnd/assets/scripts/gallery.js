@@ -37,6 +37,7 @@ async function generateWorks(works) {
         captionElement.innerText = 'éditer';
         const trashIcon = document.createElement('i');
         trashIcon.setAttribute('class', 'fa-solid fa-trash-can modal-icons icon-trash');
+        trashIcon.dataset.workId = work.id;
         const crossIcon = document.createElement('i');
         crossIcon.setAttribute('class', 'fa-solid fa-arrows-up-down-left-right modal-icons icon-cross icon-toggle');
         //Rattachement des balises aux parents

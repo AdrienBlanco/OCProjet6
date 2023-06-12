@@ -15,6 +15,7 @@ const openModal = async function (e) {
         modal = await loadModal(target);
         generateWorks(works);
         toggleCrossIcon();
+        deleteWorks();
         focusables = Array.from(modal.querySelectorAll(focusableSelector));
         previouslyFocusedElement = document.querySelector(':focus');
         focusables[0].focus();
@@ -27,6 +28,7 @@ const openModal = async function (e) {
         clearWorks();
         generateWorks(works);
         toggleCrossIcon();
+        deleteWorks();
     };
 };
 
@@ -84,41 +86,32 @@ window.addEventListener('keydown', function (e) {
 //Affichage de l'icone croix au clic sur les éléments de la galerie
 function toggleCrossIcon() {
     let figures = document.querySelectorAll('.modal-gallery figure');
-    figures.forEach(f => {
-        f.addEventListener('click', function (event) {
-                console.log(f);
-                console.log(event.target)
-                const crossIcon = event.target.querySelector('.icon-cross')
-                crossIcon.classList.toggle('icon-toggle');
-            }, true)
+    figures.forEach(figure => {
+        figure.addEventListener('click', function () {
+            const crossIcon = figure.querySelector('.icon-cross')
+            figures.forEach(figure => { figure.querySelector('.icon-cross').classList.add('icon-toggle') });
+            crossIcon.classList.toggle('icon-toggle');
+        });
     });
 };
 
-//////////Suppression des photos
+//////////Gestion de la galerie 
 
-function deleteWorks() {
-    //Ajout d'un eventListener sur le formulaire de connexion
-    document.querySelector('.modal-gallery .icon-trash').addEventListener('click', async function () {
-        //Récupération de la valeur saisie dans les champs email et password
-        const loginValue = {
-            email: event.target.querySelector("[name=email]").value,
-            password: event.target.querySelector("[name=password]").value
-        };
-        //Réécriture de la valeur des champs email et password au format Json
-        const loginValueJson = JSON.stringify(loginValue);
-        //Options de la requète fetch 
-        const requestOptions = {
-            method: 'DELETE',
-            headers: { "Content-Type": "application/json" },
-            body: loginValueJson
-        };
-        //requête API pour authentification du User
-        const responseLogin = await fetch('http://localhost:5678/api/works/{id}', requestOptions);
-        if (responseLogin.ok) { //Si l'authentication de l'utilisateur est ok (status 200)
-            let bearer = await responseLogin.json(); 
-            sessionStorage.setItem('accessToken', bearer.token); //Sauvegarde du Bearer token dans le sessionStorage
-            window.location.assign('../../index.html'); //Redirection vers la page principale du site
+//Récupération du Bearer token
+var Bearer = sessionStorage.getItem('accessToken');
 
-        };
+//Supression des travaux au clic sur l'icone trash-can
+const requestDeleteOptions = {
+    method: 'DELETE',
+    headers: { "Authorization": `Bearer ${Bearer}` },
+};
+
+async function deleteWorks() {
+    //Ajout des eventListener sur les icones trash-can
+    document.querySelectorAll('.modal-gallery .icon-trash').forEach(icon => {
+        icon.addEventListener('click', async function () {
+            const IdToDelete = icon.dataset.workId;
+            await fetch(`http://localhost:5678/api/works/${IdToDelete}`, requestDeleteOptions);
+        })
     });
 };
