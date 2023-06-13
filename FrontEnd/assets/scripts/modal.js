@@ -1,4 +1,4 @@
-import { generateWorks, works, clearWorks, categories } from "./gallery.js";
+import { generateWorks, works, categories } from "./gallery.js";
 
 ////////Paramétrage de la fenêtre modale
 
@@ -10,10 +10,6 @@ const openModal = async function (e) {
     const target = e.target.getAttribute('href'); //Récupération du href ciblé à l'utilisation d'openModal
     if (modal == null) { //Si la modale n'existe pas 
         modal = await loadModal(target); //Initialiser la modale
-        clearWorks();
-        generateWorks(works);
-        toggleCrossIcon();
-        deleteWorks();
         modalSwitchEvent();
         generateCategoryOptions()
         modal.addEventListener('click', closeModal);
@@ -22,13 +18,16 @@ const openModal = async function (e) {
     } else { //Si la modale a déjà été créée 
         modal.style.display = null; //retirer le display none pour la réafficher
     };
+    generateWorks(works);
+    toggleCrossIcon();
+    deleteWorks();
 };
 
 //Evenements joués à la fermeture de la modale
 const closeModal = function (e) {
     if (modal == undefined) return;
     modal.style.display = 'none';
-    modalSwitch(null, null);
+    modalSwitch(null, null); //Retour sur la modale 1 à la fermeture de la modale
 };
 
 //Pour stopper le bubbling lors du clic dans la modale
@@ -57,7 +56,6 @@ window.addEventListener('keydown', function (e) {
         closeModal(e);
     };
 });
-
 
 //Affichage de l'icone croix au clic sur les éléments de la galerie
 function toggleCrossIcon() {
@@ -88,29 +86,32 @@ async function deleteWorks() {
         icon.addEventListener('click', async function () {
             const IdToDelete = icon.dataset.workId;
             await fetch(`http://localhost:5678/api/works/${IdToDelete}`, requestDeleteOptions);
+            console.log('suppression');
+            let refreshWorks = works.filter(work => work.id != IdToDelete) ///////NE FONCTIONNE PAS, A CORRIGER
+            generateWorks(refreshWorks);
         })
     });
 };
 
 //Fonctions pour le changement de page dans la modale
-const modalSwitch = function(valeur1, valeur2) {
-    document.querySelectorAll('#modal .modal1').forEach(e => { e.style.display = valeur1 });
-    document.querySelectorAll('#modal .modal2').forEach(e => { e.style.display = valeur2 });
-};    
+const modalSwitch = function (valeur1, valeur2) {
+    document.querySelector('#modal .modal1').style.display = valeur1;
+    document.querySelector('#modal .modal2').style.display = valeur2;
+};
 
-function modalSwitchEvent() {   
+function modalSwitchEvent() {
     document.querySelector('#modal .modal1 input').addEventListener('click', function (input) {
         input.preventDefault();
         modalSwitch('none', 'flex');
     })
     document.querySelector('#modal .modal2 .fa-arrow-left').addEventListener('click', function () {
         modalSwitch(null, null);
-    })  
+    })
 };
 
 //Génération de la liste des catégories pour l'ajout de projets
 async function generateCategoryOptions() {
-    const select = document.querySelector('#categories');
+    const select = document.querySelector('#category');
     for (let i = 0; i < categories.length; i++) {
         const category = categories[i];
         //Création des balises options
@@ -124,8 +125,45 @@ async function generateCategoryOptions() {
     };
 };
 
-//Validation de l'ajout de projet
-// function validate() {
-//     document.querySelector('#validate').style.backgroundColor = null;
-// }
+/////////////////////////Ajout d'un projet A TERMINER !!!!!!!!
 
+function addWorks() {
+    //champs image
+    const addImage = document.querySelector('input#image');
+    addImage.addEventListener('input', function (event) {
+        filePreview = event.target.files[0];
+
+    });
+    //champs titre
+    const addTitle = document.querySelector('input#title');
+    addTitle.addEventListener("input", function (event) {
+        inputTitle = event.target.value;
+    });
+    //champs catégory
+    const addCategory = document.querySelector('select#category');
+    addCategory.addEventListener("input", function (event) {
+        inputCategory = event.target.selectedIndex;
+    });
+
+    //Création des éléments formData poue le body
+    const formData = new FormData();
+    formData.append("image", filePreview);
+    formData.append("title", inputTitle);
+    formData.append("category", inputCategory);
+
+    //Options de la requète fetch 
+    const requestOptions = {
+        method: 'POST',
+        headers: { "Authorization": `Bearer ${bearer}` },
+        body: formData
+    };
+    // requête API pour authentification du User
+    const responseWorksPost = fetch('http://localhost:5678/api/works', requestOptions);
+
+};
+
+
+//Validation de l'ajout de projet
+function validate() {
+    document.querySelector('#validate').style.backgroundColor = null;
+};

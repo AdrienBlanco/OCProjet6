@@ -10,6 +10,7 @@ async function generateWorks(works) {
     //Récupération emplacement du DOM pour la création des éléments
     const portfolioGallery = document.querySelector('.portfolio-gallery');
     const modalGallery = document.querySelector('.modal-gallery');
+    clearWorks();
     for (let i = 0; i < works.length; i++) {
         const work = works[i];
         //Création des balises figure pour chaque travaux
@@ -97,7 +98,6 @@ function filterByCategory() {
             let selectedCategoryId = button.dataset.categoryId;
             //Ajout de la classe "filter-selected" sur le button sélectionné et suppression de la gallerie de travaux
             button.classList.add('filter-selected');
-            clearWorks();
             if (button.classList.contains('no-filter')) { //Si le button sélectionné contient la classe "no-filter", générer tous les travaux
                 generateWorks(works);
             } else { //Sinon générer uniquement les travaux filtrés par Id 
@@ -111,6 +111,5 @@ function filterByCategory() {
 export {
     generateWorks,
     works,
-    clearWorks,
     categories
 };

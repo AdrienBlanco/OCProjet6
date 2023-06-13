@@ -390,7 +390,7 @@ form select {
 
 .modal-arrow {
 	position: relative;
-	left: -80px;
+	left: -270px;
 	top: -30px;
 }
 
@@ -435,6 +435,49 @@ form select {
 
 #modal .modal2 {
 	display: none;
+	flex-direction: column;
+}
+
+/*******formulaire ajout de photo********/
+
+#add-works label {
+	color: #444444;
+}
+
+#image {
+	display: none;
+}
+
+#image-container {
+	font-size: 14px;
+	background-color: #E8F1F7;
+	border-radius: 3px;
+	padding: 28px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	margin: 0;
+	cursor: pointer;
+}
+
+#add-works .add-works-icon {
+	color: #B9C5CC;
+	font-size: 58px;
+}
+
+#add-works .add-works-btn {
+	background-color: #CBD6DC;
+	border-radius: 50px;
+	color: #306685;
+	padding: 10px 33px;
+	margin-top: 21px;
+	margin-bottom: 7px;
+}
+
+#add-works .add-works-size {
+	font-size: 10px;
+	color: #444444;
 }
 
 /*******footer********/
