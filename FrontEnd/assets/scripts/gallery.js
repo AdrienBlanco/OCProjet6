@@ -1,11 +1,14 @@
-import { modal } from "./modal.js";
+import { modal, deleteWorks } from "./modal.js";
 
 // Récupération des travaux depuis l'API
-const responseWorks = await fetch('http://localhost:5678/api/works/');
-const works = await responseWorks.json();
+let works
+async function fetchWorks() {
+    const responseWorks = await fetch('http://localhost:5678/api/works/');
+    works = await responseWorks.json();
+};
+await fetchWorks();
 
 //Génération des travaux présents sur l'API
-generateWorks(works);
 async function generateWorks(works) {
     //Récupération emplacement du DOM pour la création des éléments
     const portfolioGallery = document.querySelector('.portfolio-gallery');
@@ -50,6 +53,16 @@ async function generateWorks(works) {
             workElement.appendChild(crossIcon);
         }
     };
+    deleteWorks(); //Initialisation du listener pour la suppression des travaux à chaque réaffichage de la galerie
+};
+generateWorks(works);
+
+//Fonction pour vider la gallerie
+function clearWorks() {
+    document.querySelector(".portfolio-gallery").innerHTML = "";
+    if (modal) {
+        document.querySelector(".modal-gallery").innerHTML = "";
+    }
 };
 
 // Récupération des catégories depuis l'API
@@ -57,7 +70,6 @@ const responseCategories = await fetch('http://localhost:5678/api/categories/');
 const categories = await responseCategories.json();
 
 //Génération des boutons de filtrage
-generateCategories();
 async function generateCategories() {
     //Récupération emplacement du DOM pour la création des éléments
     const filters = document.querySelector('.filters');
@@ -71,23 +83,12 @@ async function generateCategories() {
         filters.appendChild(filterElement);
     };
 };
-
-//Fonction pour vider la gallerie
-function clearWorks() {
-    document.querySelector(".portfolio-gallery").innerHTML = "";
-    if (modal) {
-        document.querySelector(".modal-gallery").innerHTML = "";
-    }
-};
-
+generateCategories();
 
 //Filtrage par catégorie
-filterByCategory();
 function filterByCategory() {
-
     //Récupération de la liste de boutons sous forme de tableau
     const filterButtons = document.querySelectorAll('.filters li');
-
     //Manipulation de chaque "button" qui compose le tableau "filterButtons"
     filterButtons.forEach(button => {
         //ajout d'un listener pour chaque "button"
@@ -107,9 +108,11 @@ function filterByCategory() {
         });
     });
 };
+filterByCategory();
 
 export {
     generateWorks,
     works,
-    categories
+    categories,
+    fetchWorks
 };

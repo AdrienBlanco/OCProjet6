@@ -1,8 +1,8 @@
-import { generateWorks, works, categories } from "./gallery.js";
+import { generateWorks, works, categories, fetchWorks } from "./gallery.js";
 
 ////////Paramétrage de la fenêtre modale
 
-export let modal = null; //Initialisation de la modal au chargement de la page
+let modal = null; //Initialisation de la modal au chargement de la page
 
 //Evenements joués à l'ouverture de la modale
 const openModal = async function (e) {
@@ -11,16 +11,18 @@ const openModal = async function (e) {
     if (modal == null) { //Si la modale n'existe pas 
         modal = await loadModal(target); //Initialiser la modale
         modalSwitchEvent();
-        generateCategoryOptions()
+        generateCategoryOptions();
+        addWorks();
         modal.addEventListener('click', closeModal);
         modal.querySelector('.modal-close').addEventListener('click', closeModal);
         modal.querySelector('.modal-stop').addEventListener('click', stopPropagation);
+        let imageInput = modal.querySelector('#add-works #image');
+        imageInput.addEventListener('change', function () {previewImage(imageInput)});
     } else { //Si la modale a déjà été créée 
         modal.style.display = null; //retirer le display none pour la réafficher
     };
     generateWorks(works);
     toggleCrossIcon();
-    deleteWorks();
 };
 
 //Evenements joués à la fermeture de la modale
@@ -49,7 +51,6 @@ document.querySelectorAll('.modal-open').forEach(a => {
     a.addEventListener('click', openModal);
 });
 
-
 //Fermeture de la modale avec la touche echap
 window.addEventListener('keydown', function (e) {
     if (e.key === "Escape" || e.key === "Esc") {
@@ -72,7 +73,7 @@ function toggleCrossIcon() {
 //////////Gestion de la galerie 
 
 //Récupération du Bearer token
-var bearer = sessionStorage.getItem('accessToken');
+let bearer = sessionStorage.getItem('accessToken');
 
 //Supression des travaux au clic sur l'icone trash-can
 const requestDeleteOptions = {
@@ -84,11 +85,11 @@ async function deleteWorks() {
     //Ajout des eventListener sur les icones trash-can
     document.querySelectorAll('.modal-gallery .icon-trash').forEach(icon => {
         icon.addEventListener('click', async function () {
-            const IdToDelete = icon.dataset.workId;
-            await fetch(`http://localhost:5678/api/works/${IdToDelete}`, requestDeleteOptions);
-            console.log('suppression');
-            let refreshWorks = works.filter(work => work.id != IdToDelete) ///////NE FONCTIONNE PAS, A CORRIGER
-            generateWorks(refreshWorks);
+            let idToDelete = icon.dataset.workId;
+            await fetch(`http://localhost:5678/api/works/${idToDelete}`, requestDeleteOptions);
+            alert(`Suppression du projet n°${idToDelete}`);
+            await fetchWorks();
+            generateWorks(works);
         })
     });
 };
@@ -125,45 +126,71 @@ async function generateCategoryOptions() {
     };
 };
 
-/////////////////////////Ajout d'un projet A TERMINER !!!!!!!!
+/////////////////////////Ajout d'un projet
 
-function addWorks() {
-    //champs image
-    const addImage = document.querySelector('input#image');
-    addImage.addEventListener('input', function (event) {
-        filePreview = event.target.files[0];
+//Affichage du preview
+var previewImage = function (e) {
+    console.log('testpreview');
+    const image = document.querySelector("img.image-preview");
+    // e.files contient un objet FileList
+    const [picture] = e.files;
+    // "picture" est un objet File
+    if (picture) {
+        // On change l'URL de l'image
+        // L'objet FileReader
+        var reader = new FileReader();
+        // L'événement déclenché lorsque la lecture est complète
+        reader.onload = function (e) {
+            // On change l'URL de l'image (base64)
+            image.src = e.target.result;
+        }
+        // On lit le fichier "picture" uploadé
+        reader.readAsDataURL(picture);
+    }
+};
 
+async function addWorks() {
+    let addWorksForm = document.querySelector("#add-works");
+    addWorksForm.addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        const formValue = {
+            image: event.target.querySelector('#add-works #image').files[0],
+            title: event.target.querySelector('#add-works #title').value,
+            category: event.target.querySelector('#add-works #category').selectedIndex
+        }
+
+        if (formValue) {
+            //Création des éléments formData pour le body
+            const formData = new FormData();
+            formData.append("image", formValue.image);
+            formData.append("title", formValue.title);
+            formData.append("category", formValue.category);
+
+            //Options de la requète fetch 
+            const requestAddWorksOptions = {
+                method: 'POST',
+                headers: { "Authorization": `Bearer ${bearer}` },
+                body: formData
+            };
+            // requête API pour POST du nouveau "works"
+            await fetch('http://localhost:5678/api/works', requestAddWorksOptions);
+
+            await fetchWorks();
+            generateWorks(works);
+        } else {
+            alert('Veuillez saisir tous les champs')
+        };
     });
-    //champs titre
-    const addTitle = document.querySelector('input#title');
-    addTitle.addEventListener("input", function (event) {
-        inputTitle = event.target.value;
-    });
-    //champs catégory
-    const addCategory = document.querySelector('select#category');
-    addCategory.addEventListener("input", function (event) {
-        inputCategory = event.target.selectedIndex;
-    });
-
-    //Création des éléments formData poue le body
-    const formData = new FormData();
-    formData.append("image", filePreview);
-    formData.append("title", inputTitle);
-    formData.append("category", inputCategory);
-
-    //Options de la requète fetch 
-    const requestOptions = {
-        method: 'POST',
-        headers: { "Authorization": `Bearer ${bearer}` },
-        body: formData
-    };
-    // requête API pour authentification du User
-    const responseWorksPost = fetch('http://localhost:5678/api/works', requestOptions);
-
 };
 
 
 //Validation de l'ajout de projet
 function validate() {
     document.querySelector('#validate').style.backgroundColor = null;
+};
+
+export {
+    modal,
+    deleteWorks
 };

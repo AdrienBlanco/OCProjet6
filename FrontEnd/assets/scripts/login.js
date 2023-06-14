@@ -1,5 +1,4 @@
 //Formulaire de connexion de l'utilisateur
-loginUser();
 function loginUser() {
     //Ajout d'un eventListener sur le formulaire de connexion
     document.querySelector('#login form').addEventListener('submit', async function (event) {
@@ -30,3 +29,4 @@ function loginUser() {
         };
     });
 };
+loginUser();
