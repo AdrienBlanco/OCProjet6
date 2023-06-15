@@ -19,7 +19,7 @@ const openModal = async function (e) {
         validate();
     } else { //Si la modale a déjà été créée 
         modal.style.display = null; //retirer le display none pour la réafficher
-    };
+    }
     generateWorks(works);
     toggleCrossIcon();
     let imageInput = modal.querySelector('#add-works #image');
@@ -56,7 +56,7 @@ document.querySelectorAll('.modal-open').forEach(a => {
 window.addEventListener('keydown', function (e) {
     if (e.key === "Escape" || e.key === "Esc") {
         closeModal(e);
-    };
+    }
 });
 
 //Affichage de l'icone croix au clic sur les éléments de la galerie
@@ -67,7 +67,7 @@ function toggleCrossIcon() {
             const crossIcon = figure.querySelector('.icon-cross')
             figures.forEach(figure => { figure.querySelector('.icon-cross').classList.add('icon-toggle') });
             crossIcon.classList.toggle('icon-toggle');
-        });
+        })
     });
 };
 
@@ -111,22 +111,6 @@ function modalSwitchEvent() {
     })
 };
 
-//Génération de la liste des catégories pour l'ajout de projets
-async function generateCategoryOptions() {
-    const select = document.querySelector('#category');
-    for (let i = 0; i < categories.length; i++) {
-        const category = categories[i];
-        //Création des balises options
-        const optionList = document.createElement('option');
-        optionList.innerText = category.name;
-        optionList.setAttribute('value', category.name);
-        //Rattachement des balises aux parents
-        if (select) {
-            select.appendChild(optionList);
-        };
-    };
-};
-
 /////////////////////////Ajout d'un projet
 
 //Affichage du preview
@@ -149,14 +133,28 @@ const previewImage = function (e) {
     }
 };
 
+//Génération de la liste des catégories pour l'ajout de projets
+async function generateCategoryOptions() {
+    const select = document.querySelector('#category');
+    for (let i = 0; i < categories.length; i++) {
+        const category = categories[i];
+        //Création des balises options
+        const optionList = document.createElement('option');
+        optionList.innerText = category.name;
+        optionList.setAttribute('value', category.name);
+        //Rattachement des balises aux parents
+        if (select) {
+            select.appendChild(optionList);
+        };
+    };
+};
+
 //Changement de la couleur du bouton valider en fonction de la complétion du formulaire
 function validate() {
     document.forms["add-works"].addEventListener('change', async function () {
-
         let error;
         let inputs = this.getElementsByTagName('input');
         let validateBtn = document.getElementById('validate');
-
         for (let i = 0; i < inputs.length; i++) {
             if (!inputs[i].value) {
                 validateBtn.style.backgroundColor = "#A7A7A7";
@@ -175,33 +173,28 @@ function validate() {
 async function addWorks() {
     document.forms["add-works"].addEventListener('submit', async function (event) {
         event.preventDefault();
-
         let error;
-
         let inputs = this.getElementsByTagName('input');
         console.log(inputs)
-
         for (let i = 0; i < inputs.length; i++) {
             if (!inputs[i].value) {
                 error = 'Veuillez renseigner tous les champs';
-            }
-        }
+            };
+        };
         if (error) {
             document.getElementById("error").innerHTML = error;
             return false;
         } else {
-
             const formValue = {
                 image: this.querySelector('#add-works #image').files[0],
                 title: this.querySelector('#add-works #title').value,
                 category: this.querySelector('#add-works #category').selectedIndex
-            }
+            };
             //Création des éléments formData pour le body
             const formData = new FormData();
             formData.append("image", formValue.image);
             formData.append("title", formValue.title);
             formData.append("category", formValue.category);
-
             //Options de la requète fetch 
             const requestAddWorksOptions = {
                 method: 'POST',
@@ -217,8 +210,8 @@ async function addWorks() {
                 modalSwitch(null, null);
                 this.reset();
                 document.querySelector("img.image-preview").src = "";
-            }
-        }
+            };
+        };
     });
 };
 
