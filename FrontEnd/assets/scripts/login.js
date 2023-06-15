@@ -6,8 +6,8 @@ function loginUser() {
         event.preventDefault();
         //Récupération de la valeur saisie dans les champs email et password
         const loginValue = {
-            email: event.target.querySelector("[name=email]").value,
-            password: event.target.querySelector("[name=password]").value
+            email: this.querySelector("[name=email]").value,
+            password: this.querySelector("[name=password]").value
         };
         //Réécriture de la valeur des champs email et password au format Json
         const loginValueJson = JSON.stringify(loginValue);
