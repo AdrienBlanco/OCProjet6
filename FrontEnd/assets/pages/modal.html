@@ -25,7 +25,7 @@
                         <p class="add-works-size">jpg, png : 4mo max</p>
                         <img src="#" alt="aperçu" class="image-preview">
                     </label>
-                    <input type="file" name="image" id="image">
+                    <input type="file" name="image" id="image" accept="image/png, image/jpeg">
                     <label for="title">Titre</label>
                     <input type="text" name="title" id="title">
                     <label for="category">Catégorie</label>
@@ -36,6 +36,7 @@
                     <div class="modal-grey-line"></div>
                     <input id="validate" type="submit" value="Valider" style="background-color: #A7A7A7;">
                 </form>
+                <p id="error"></p>
             </div>
         </div>
     </aside>

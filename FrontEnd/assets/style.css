@@ -448,6 +448,10 @@ form select {
 	display: none;
 }
 
+#error {
+	color: #D65353;
+}
+
 #image-container {
 	font-size: 14px;
 	background-color: #E8F1F7;
@@ -481,9 +485,9 @@ form select {
 }
 
 #add-works .image-preview {
-	width: 30%;
+	width: 28%;
 	position: absolute;
-	clip: rect(33px, auto, 219px, auto);
+	clip: rect(26px, auto, 212px, auto);
 }
 
 /*******footer********/

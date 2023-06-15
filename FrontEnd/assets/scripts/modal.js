@@ -10,19 +10,20 @@ const openModal = async function (e) {
     const target = e.target.getAttribute('href'); //Récupération du href ciblé à l'utilisation d'openModal
     if (modal == null) { //Si la modale n'existe pas 
         modal = await loadModal(target); //Initialiser la modale
-        modalSwitchEvent();
-        generateCategoryOptions();
-        addWorks();
         modal.addEventListener('click', closeModal);
         modal.querySelector('.modal-close').addEventListener('click', closeModal);
         modal.querySelector('.modal-stop').addEventListener('click', stopPropagation);
-        let imageInput = modal.querySelector('#add-works #image');
-        imageInput.addEventListener('change', function () {previewImage(imageInput)});
+        modalSwitchEvent();
+        generateCategoryOptions();
+        addWorks();
+        validate();
     } else { //Si la modale a déjà été créée 
         modal.style.display = null; //retirer le display none pour la réafficher
     };
     generateWorks(works);
     toggleCrossIcon();
+    let imageInput = modal.querySelector('#add-works #image');
+    imageInput.addEventListener('change', function () { previewImage(imageInput) });
 };
 
 //Evenements joués à la fermeture de la modale
@@ -87,7 +88,7 @@ async function deleteWorks() {
         icon.addEventListener('click', async function () {
             let idToDelete = icon.dataset.workId;
             await fetch(`http://localhost:5678/api/works/${idToDelete}`, requestDeleteOptions);
-            alert(`Suppression du projet n°${idToDelete}`);
+            alert(`Le projet n°${idToDelete} a été supprimé`);
             await fetchWorks();
             generateWorks(works);
         })
@@ -129,38 +130,72 @@ async function generateCategoryOptions() {
 /////////////////////////Ajout d'un projet
 
 //Affichage du preview
-var previewImage = function (e) {
-    console.log('testpreview');
+const previewImage = function (e) {
     const image = document.querySelector("img.image-preview");
-    // e.files contient un objet FileList
+    // e.files contient un objet FileList   
     const [picture] = e.files;
     // "picture" est un objet File
     if (picture) {
-        // On change l'URL de l'image
         // L'objet FileReader
-        var reader = new FileReader();
+        let reader = new FileReader();
         // L'événement déclenché lorsque la lecture est complète
         reader.onload = function (e) {
-            // On change l'URL de l'image (base64)
+            // On change l'URL de l'image
             image.src = e.target.result;
-        }
+        };
         // On lit le fichier "picture" uploadé
         reader.readAsDataURL(picture);
+    
     }
 };
 
+//Changement de la couleur du bouton valider en fonction de la complétion du formulaire
+function validate() {
+    document.forms["add-works"].addEventListener('change', async function () {
+
+        let error;
+        let inputs = this.getElementsByTagName('input');
+        let validateBtn = document.getElementById('validate');
+
+        for (let i = 0; i < inputs.length; i++) {
+            if (!inputs[i].value) {
+                validateBtn.style.backgroundColor = "#A7A7A7";
+                return error;
+            }
+            if (error) {
+                return;
+            } else {
+                validateBtn.style.backgroundColor = null;
+            }
+        };
+    });
+};
+
+// Fonction pour poster un nouveau projet
 async function addWorks() {
-    let addWorksForm = document.querySelector("#add-works");
-    addWorksForm.addEventListener('submit', async function (event) {
+    document.forms["add-works"].addEventListener('submit', async function (event) {
         event.preventDefault();
 
-        const formValue = {
-            image: event.target.querySelector('#add-works #image').files[0],
-            title: event.target.querySelector('#add-works #title').value,
-            category: event.target.querySelector('#add-works #category').selectedIndex
-        }
+        let error;
 
-        if (formValue) {
+        let inputs = this.getElementsByTagName('input');
+        console.log(inputs)
+
+        for (let i = 0; i < inputs.length; i++) {
+            if (!inputs[i].value) {
+                error = 'Veuillez renseigner tous les champs';
+            }
+        }
+        if (error) {
+            document.getElementById("error").innerHTML = error;
+            return false;
+        } else {
+
+            const formValue = {
+                image: this.querySelector('#add-works #image').files[0],
+                title: this.querySelector('#add-works #title').value,
+                category: this.querySelector('#add-works #category').selectedIndex
+            }
             //Création des éléments formData pour le body
             const formData = new FormData();
             formData.append("image", formValue.image);
@@ -174,20 +209,17 @@ async function addWorks() {
                 body: formData
             };
             // requête API pour POST du nouveau "works"
-            await fetch('http://localhost:5678/api/works', requestAddWorksOptions);
-
-            await fetchWorks();
-            generateWorks(works);
-        } else {
-            alert('Veuillez saisir tous les champs')
-        };
+            const responseAddWorks = await fetch('http://localhost:5678/api/works', requestAddWorksOptions);
+            if (responseAddWorks.ok) {
+                await fetchWorks();
+                generateWorks(works);
+                alert('Ajout du projet réalisé avec succès');
+                modalSwitch(null, null);
+                this.reset();
+                document.querySelector("img.image-preview").src = "";
+            }
+        }
     });
-};
-
-
-//Validation de l'ajout de projet
-function validate() {
-    document.querySelector('#validate').style.backgroundColor = null;
 };
 
 export {
