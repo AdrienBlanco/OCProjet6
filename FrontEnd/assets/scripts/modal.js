@@ -1,6 +1,6 @@
 import { generateWorks, works, categories, fetchWorks } from "./gallery.js";
 
-////////Paramétrage de la fenêtre modale
+////////////////////////////Paramétrage de la fenêtre modale
 
 let modal = null; //Initialisation de la modal au chargement de la page
 
@@ -17,17 +17,18 @@ const openModal = async function (e) {
         generateCategoryOptions();
         addWorks();
         validate();
+        deleteAllWorks()
+        let imageInput = modal.querySelector('#add-works #image');
+        imageInput.addEventListener('change', function () { previewImage(imageInput) });
     } else { //Si la modale a déjà été créée 
         modal.style.display = null; //retirer le display none pour la réafficher
     }
     generateWorks(works);
     toggleCrossIcon();
-    let imageInput = modal.querySelector('#add-works #image');
-    imageInput.addEventListener('change', function () { previewImage(imageInput) });
 };
 
 //Evenements joués à la fermeture de la modale
-const closeModal = function (e) {
+const closeModal = function () {
     if (modal == undefined) return;
     modal.style.display = 'none';
     modalSwitch(null, null); //Retour sur la modale 1 à la fermeture de la modale
@@ -71,7 +72,7 @@ function toggleCrossIcon() {
     });
 };
 
-//////////Gestion de la galerie 
+/////////////////////////////Suppression de la galerie 
 
 //Récupération du Bearer token
 let bearer = sessionStorage.getItem('accessToken');
@@ -92,6 +93,21 @@ async function deleteWorks() {
             await fetchWorks();
             generateWorks(works);
         })
+    });
+};
+
+async function deleteAllWorks() {
+    document.querySelector('.modal-delete').addEventListener('click', async function (e) {
+        let confirmation = confirm('Êtes-vous sûr de vouloir supprimer toute la galerie ?')
+        if (confirmation == false) {
+            e.preventDefault();
+        } else {
+            for (let i = 0; i < works.length + 1; i++) {
+                await fetch(`http://localhost:5678/api/works/${i}`, requestDeleteOptions);
+            }
+            await fetchWorks();
+            generateWorks(works);
+        }
     });
 };
 
@@ -124,12 +140,17 @@ const previewImage = function (e) {
         let reader = new FileReader();
         // L'événement déclenché lorsque la lecture est complète
         reader.onload = function (e) {
-            // On change l'URL de l'image
-            image.src = e.target.result;
+            if (picture.size > 400000) {
+                alert('Fichier trop volumineux !');
+                image.src = "";
+                return;
+            } else {
+                // On change l'URL de l'image
+                image.src = e.target.result;
+            }
         };
         // On lit le fichier "picture" uploadé
         reader.readAsDataURL(picture);
-    
     }
 };
 
@@ -154,9 +175,10 @@ function validate() {
     document.forms["add-works"].addEventListener('change', async function () {
         let error;
         let inputs = this.getElementsByTagName('input');
+        let select = this.querySelector('#add-works #category');
         let validateBtn = document.getElementById('validate');
         for (let i = 0; i < inputs.length; i++) {
-            if (!inputs[i].value) {
+            if (!inputs[i].value || select.value == 'empty') {
                 validateBtn.style.backgroundColor = "#A7A7A7";
                 return error;
             }
@@ -175,20 +197,20 @@ async function addWorks() {
         event.preventDefault();
         let error;
         let inputs = this.getElementsByTagName('input');
-        console.log(inputs)
+        let select = this.querySelector('#add-works #category');
         for (let i = 0; i < inputs.length; i++) {
-            if (!inputs[i].value) {
+            if (!inputs[i].value || select.value == 'empty') {
                 error = 'Veuillez renseigner tous les champs';
             };
         };
         if (error) {
             document.getElementById("error").innerHTML = error;
-            return false;
+            return;
         } else {
             const formValue = {
                 image: this.querySelector('#add-works #image').files[0],
                 title: this.querySelector('#add-works #title').value,
-                category: this.querySelector('#add-works #category').selectedIndex
+                category: select.selectedIndex
             };
             //Création des éléments formData pour le body
             const formData = new FormData();
@@ -210,7 +232,8 @@ async function addWorks() {
                 modalSwitch(null, null);
                 this.reset();
                 document.querySelector("img.image-preview").src = "";
-            };
+                document.getElementById("error").innerHTML = "";
+            }
         };
     });
 };
