@@ -16,12 +16,10 @@ if (connected) {
         element.style.display = 'none';
     });
     toggleLogin.style.display = 'flex';
-};
+}
 
 //Déconnexion
 document.querySelector('.logout').addEventListener('click', function () {
     logout;
     window.location.reload();
 });
-
-

@@ -5,7 +5,7 @@ let works
 async function fetchWorks() {
     const responseWorks = await fetch('http://localhost:5678/api/works/');
     works = await responseWorks.json();
-};
+}
 await fetchWorks();
 
 //Génération des travaux présents sur l'API
@@ -54,7 +54,7 @@ async function generateWorks(works) {
         }
     };
     deleteWorks(); //Initialisation du listener pour la suppression des travaux à chaque réaffichage de la galerie
-};
+}
 generateWorks(works);
 
 //Fonction pour vider la gallerie
@@ -63,7 +63,7 @@ function clearWorks() {
     if (modal) {
         document.querySelector(".modal-gallery").innerHTML = "";
     }
-};
+}
 
 // Récupération des catégories depuis l'API
 const responseCategories = await fetch('http://localhost:5678/api/categories/');
@@ -82,7 +82,7 @@ async function generateCategories() {
         //Rattachement des balises aux parents
         filters.appendChild(filterElement);
     };
-};
+}
 generateCategories();
 
 //Filtrage par catégorie
@@ -107,7 +107,7 @@ function filterByCategory() {
             }
         });
     });
-};
+}
 filterByCategory();
 
 export {

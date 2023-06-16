@@ -70,7 +70,7 @@ function toggleCrossIcon() {
             crossIcon.classList.toggle('icon-toggle');
         })
     });
-};
+}
 
 /////////////////////////////Suppression de la galerie 
 
@@ -94,13 +94,12 @@ async function deleteWorks() {
             generateWorks(works);
         })
     });
-};
+}
 
 async function deleteAllWorks() {
     document.querySelector('.modal-delete').addEventListener('click', async function (e) {
         let confirmation = confirm('Êtes-vous sûr de vouloir supprimer toute la galerie ?')
         if (confirmation == false) {
-            e.preventDefault();
         } else {
             for (let i = 0; i < works.length + 1; i++) {
                 await fetch(`http://localhost:5678/api/works/${i}`, requestDeleteOptions);
@@ -109,7 +108,7 @@ async function deleteAllWorks() {
             generateWorks(works);
         }
     });
-};
+}
 
 //Fonctions pour le changement de page dans la modale
 const modalSwitch = function (valeur1, valeur2) {
@@ -125,7 +124,7 @@ function modalSwitchEvent() {
     document.querySelector('#modal .modal2 .fa-arrow-left').addEventListener('click', function () {
         modalSwitch(null, null);
     })
-};
+}
 
 /////////////////////////Ajout d'un projet
 
@@ -166,9 +165,9 @@ async function generateCategoryOptions() {
         //Rattachement des balises aux parents
         if (select) {
             select.appendChild(optionList);
-        };
-    };
-};
+        }
+    }
+}
 
 //Changement de la couleur du bouton valider en fonction de la complétion du formulaire
 function validate() {

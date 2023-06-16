@@ -26,7 +26,7 @@ function loginUser() {
         } else {
             const error = document.querySelector('#login .login-error'); // Affichage d'un message d'erreur en cas de connexion non autorisée
             error.innerText = "Erreur dans l’identifiant ou le mot de passe";
-        };
+        }
     });
-};
+}
 loginUser();
