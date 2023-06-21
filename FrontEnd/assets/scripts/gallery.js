@@ -1,4 +1,4 @@
-import { modal, deleteWorks } from "./modal.js";
+import { modal, deleteWorks, toggleCrossIcon } from "./modal.js";
 
 // Récupération des travaux depuis l'API
 let works
@@ -13,8 +13,8 @@ async function generateWorks(displayedWorks) {
     clearWorks();
     createWorksElements(displayedWorks, "portfolio");
     createWorksElements(displayedWorks, "modal");
-    console.log(displayedWorks)
-    deleteWorks(); 
+    deleteWorks();
+    toggleCrossIcon();
 }
 generateWorks(works);
 
@@ -28,24 +28,23 @@ function createWorksElements(displayedWorks, gallery) {
         imageElement.src = work.imageUrl;
         imageElement.alt = work.title;
         const captionElement = document.createElement('figcaption');
-        if (gallery == "portfolio") {
-            const portfolioGallery = document.querySelector('.portfolio-gallery');
+        //Rattachement des balises communnes aux deux galeries
+        workElement.appendChild(imageElement);
+        workElement.appendChild(captionElement);
+        if (gallery == "portfolio") { //Paramètres liés à la gallerie du Portfolio
             captionElement.innerText = work.title;
+            const portfolioGallery = document.querySelector('.portfolio-gallery');
             portfolioGallery.appendChild(workElement);
-            workElement.appendChild(imageElement);
-            workElement.appendChild(captionElement);
-        } else if (gallery == "modal") {
-            const modalGallery = document.querySelector('.modal-gallery');
+        } else if (gallery == "modal") { //Paramètres liés à la gallerie de la modale
             captionElement.innerText = 'éditer';
+            const modalGallery = document.querySelector('.modal-gallery');
             const trashIcon = document.createElement('i');
             trashIcon.setAttribute('class', 'fa-solid fa-trash-can modal-icons icon-trash');
             trashIcon.dataset.workId = work.id;
             const crossIcon = document.createElement('i');
             crossIcon.setAttribute('class', 'fa-solid fa-arrows-up-down-left-right modal-icons icon-cross icon-toggle');
-            if (modalGallery) {
+            if (modal) { //Ne rattacher ces éléments que lorsque la modale a été générée
                 modalGallery.appendChild(workElement);
-                workElement.appendChild(imageElement);
-                workElement.appendChild(captionElement);
                 workElement.appendChild(trashIcon);
                 workElement.appendChild(crossIcon);
             };

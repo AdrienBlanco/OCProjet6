@@ -24,7 +24,6 @@ const openModal = async function (e) {
         modal.style.display = null; //retirer le display none pour la réafficher
     }
     generateWorks(works);
-    toggleCrossIcon();
 };
 
 //Evenements joués à la fermeture de la modale
@@ -229,5 +228,6 @@ async function addWorks() {
 
 export {
     modal,
-    deleteWorks
+    deleteWorks,
+    toggleCrossIcon
 };
