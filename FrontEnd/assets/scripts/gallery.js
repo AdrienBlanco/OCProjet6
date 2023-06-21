@@ -9,53 +9,49 @@ async function fetchWorks() {
 await fetchWorks();
 
 //Génération des travaux présents sur l'API
-async function generateWorks(works) {
-    //Récupération emplacement du DOM pour la création des éléments
-    const portfolioGallery = document.querySelector('.portfolio-gallery');
-    const modalGallery = document.querySelector('.modal-gallery');
+async function generateWorks(displayedWorks) {
     clearWorks();
-    for (let i = 0; i < works.length; i++) {
-        const work = works[i];
-        //Création des balises figure pour chaque travaux
-        const workElement = document.createElement('figure');
-        //Création des balises à l'intérieur de chaque travaux et ajout du contenu
-        const imageElement = document.createElement('img');
-        imageElement.src = work.imageUrl;
-        imageElement.alt = work.title;
-        const captionElement = document.createElement('figcaption');
-        captionElement.innerText = work.title;
-        //Rattachement des balises aux parents
-        portfolioGallery.appendChild(workElement);
-        workElement.appendChild(imageElement);
-        workElement.appendChild(captionElement);
-    };
-    for (let i = 0; i < works.length; i++) {
-        const work = works[i];
-        //Création des balises figure pour chaque travaux
-        const workElement = document.createElement('figure');
-        //Création des balises à l'intérieur de chaque travaux et ajout du contenu
-        const imageElement = document.createElement('img');
-        imageElement.src = work.imageUrl;
-        imageElement.alt = work.title;
-        const captionElement = document.createElement('figcaption');
-        captionElement.innerText = 'éditer';
-        const trashIcon = document.createElement('i');
-        trashIcon.setAttribute('class', 'fa-solid fa-trash-can modal-icons icon-trash');
-        trashIcon.dataset.workId = work.id;
-        const crossIcon = document.createElement('i');
-        crossIcon.setAttribute('class', 'fa-solid fa-arrows-up-down-left-right modal-icons icon-cross icon-toggle');
-        //Rattachement des balises aux parents
-        if (modalGallery) {
-            modalGallery.appendChild(workElement);
-            workElement.appendChild(imageElement);
-            workElement.appendChild(captionElement);
-            workElement.appendChild(trashIcon);
-            workElement.appendChild(crossIcon);
-        }
-    };
-    deleteWorks(); //Initialisation du listener pour la suppression des travaux à chaque réaffichage de la galerie
+    createWorksElements(displayedWorks, "portfolio");
+    createWorksElements(displayedWorks, "modal");
+    console.log(displayedWorks)
+    deleteWorks(); 
 }
 generateWorks(works);
+
+function createWorksElements(displayedWorks, gallery) {
+    for (let i = 0; i < displayedWorks.length; i++) {
+        const work = displayedWorks[i];
+        //Création des balises figure pour chaque travaux
+        const workElement = document.createElement('figure');
+        //Création des balises à l'intérieur de chaque travaux et ajout du contenu
+        const imageElement = document.createElement('img');
+        imageElement.src = work.imageUrl;
+        imageElement.alt = work.title;
+        const captionElement = document.createElement('figcaption');
+        if (gallery == "portfolio") {
+            const portfolioGallery = document.querySelector('.portfolio-gallery');
+            captionElement.innerText = work.title;
+            portfolioGallery.appendChild(workElement);
+            workElement.appendChild(imageElement);
+            workElement.appendChild(captionElement);
+        } else if (gallery == "modal") {
+            const modalGallery = document.querySelector('.modal-gallery');
+            captionElement.innerText = 'éditer';
+            const trashIcon = document.createElement('i');
+            trashIcon.setAttribute('class', 'fa-solid fa-trash-can modal-icons icon-trash');
+            trashIcon.dataset.workId = work.id;
+            const crossIcon = document.createElement('i');
+            crossIcon.setAttribute('class', 'fa-solid fa-arrows-up-down-left-right modal-icons icon-cross icon-toggle');
+            if (modalGallery) {
+                modalGallery.appendChild(workElement);
+                workElement.appendChild(imageElement);
+                workElement.appendChild(captionElement);
+                workElement.appendChild(trashIcon);
+                workElement.appendChild(crossIcon);
+            };
+        };
+    };
+}
 
 //Fonction pour vider la gallerie
 function clearWorks() {

@@ -97,12 +97,11 @@ async function deleteWorks() {
 }
 
 async function deleteAllWorks() {
-    document.querySelector('.modal-delete').addEventListener('click', async function (e) {
+    document.querySelector('.modal-delete').addEventListener('click', async function () {
         let confirmation = confirm('Êtes-vous sûr de vouloir supprimer toute la galerie ?')
-        if (confirmation == false) {
-        } else {
-            for (let i = 0; i < works.length + 1; i++) {
-                await fetch(`http://localhost:5678/api/works/${i}`, requestDeleteOptions);
+        if (confirmation) {
+            for (let i = 0; i < works.length; i++) {
+                await fetch(`http://localhost:5678/api/works/${i + 1}`, requestDeleteOptions);
             }
             await fetchWorks();
             generateWorks(works);
@@ -172,15 +171,12 @@ async function generateCategoryOptions() {
 //Changement de la couleur du bouton valider en fonction de la complétion du formulaire
 function validate() {
     document.forms["add-works"].addEventListener('change', async function () {
-        let error;
         let inputs = this.getElementsByTagName('input');
         let select = this.querySelector('#add-works #category');
         let validateBtn = document.getElementById('validate');
         for (let i = 0; i < inputs.length; i++) {
             if (!inputs[i].value || select.value == 'empty') {
                 validateBtn.style.backgroundColor = "#A7A7A7";
-                return error;
-            } if (error) {
                 return;
             } else {
                 validateBtn.style.backgroundColor = null;
@@ -193,45 +189,40 @@ function validate() {
 async function addWorks() {
     document.forms["add-works"].addEventListener('submit', async function (event) {
         event.preventDefault();
-        let error;
         let inputs = this.getElementsByTagName('input');
         let select = this.querySelector('#add-works #category');
         for (let i = 0; i < inputs.length; i++) {
             if (!inputs[i].value || select.value == 'empty') {
-                error = 'Veuillez renseigner tous les champs';
+                document.getElementById("error").innerHTML = 'Veuillez renseigner tous les champs';
+                return;
             };
         };
-        if (error) {
-            document.getElementById("error").innerHTML = error;
-            return;
-        } else {
-            const formValue = {
-                image: this.querySelector('#add-works #image').files[0],
-                title: this.querySelector('#add-works #title').value,
-                category: select.selectedIndex
-            };
-            //Création des éléments formData pour le body
-            const formData = new FormData();
-            formData.append("image", formValue.image);
-            formData.append("title", formValue.title);
-            formData.append("category", formValue.category);
-            //Options de la requète fetch 
-            const requestAddWorksOptions = {
-                method: 'POST',
-                headers: { "Authorization": `Bearer ${bearer}` },
-                body: formData
-            };
-            // requête API pour POST du nouveau "works"
-            const responseAddWorks = await fetch('http://localhost:5678/api/works', requestAddWorksOptions);
-            if (responseAddWorks.ok) {
-                await fetchWorks();
-                generateWorks(works);
-                alert('Ajout du projet réalisé avec succès');
-                modalSwitch(null, null);
-                this.reset();
-                document.querySelector("img.image-preview").src = "";
-                document.getElementById("error").innerHTML = "";
-            }
+        const formValue = {
+            image: this.querySelector('#add-works #image').files[0],
+            title: this.querySelector('#add-works #title').value,
+            category: select.selectedIndex
+        };
+        //Création des éléments formData pour le body
+        const formData = new FormData();
+        formData.append("image", formValue.image);
+        formData.append("title", formValue.title);
+        formData.append("category", formValue.category);
+        //Options de la requète fetch 
+        const requestAddWorksOptions = {
+            method: 'POST',
+            headers: { "Authorization": `Bearer ${bearer}` },
+            body: formData
+        };
+        // requête API pour POST du nouveau "works"
+        const responseAddWorks = await fetch('http://localhost:5678/api/works', requestAddWorksOptions);
+        if (responseAddWorks.ok) {
+            await fetchWorks();
+            generateWorks(works);
+            alert('Ajout du projet réalisé avec succès');
+            modalSwitch(null, null);
+            this.reset();
+            document.querySelector("img.image-preview").src = "";
+            document.getElementById("error").innerHTML = "";
         };
     });
 };
