@@ -95,10 +95,10 @@ function filterByCategory() {
         button.addEventListener("click", function () {
             //Suppression de la classe "filter-selected" sur chaque "button" de "filterButtons"
             filterButtons.forEach(button => { button.classList.remove('filter-selected') });
-            //Récupération de l'Id du button sélectionné grâce à la valeur de l'attribut data-category-id
-            let selectedCategoryId = button.dataset.categoryId;
             //Ajout de la classe "filter-selected" sur le button sélectionné et suppression de la gallerie de travaux
             button.classList.add('filter-selected');
+            //Récupération de l'Id du button sélectionné grâce à la valeur de l'attribut data-category-id
+            let selectedCategoryId = button.dataset.categoryId;
             if (button.classList.contains('no-filter')) { //Si le button sélectionné contient la classe "no-filter", générer tous les travaux
                 generateWorks(works);
             } else { //Sinon générer uniquement les travaux filtrés par Id 

@@ -139,7 +139,7 @@ const previewImage = function (e) {
         let reader = new FileReader();
         // L'événement déclenché lorsque la lecture est complète
         reader.onload = function (e) {
-            if (picture.size > 400000) {
+            if (picture.size > 4194304) {
                 alert('Fichier trop volumineux !');
                 image.src = "";
                 return;
@@ -180,8 +180,7 @@ function validate() {
             if (!inputs[i].value || select.value == 'empty') {
                 validateBtn.style.backgroundColor = "#A7A7A7";
                 return error;
-            }
-            if (error) {
+            } if (error) {
                 return;
             } else {
                 validateBtn.style.backgroundColor = null;
