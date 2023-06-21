@@ -9,7 +9,7 @@ async function fetchWorks() {
 await fetchWorks();
 
 //Génération des travaux présents sur l'API
-async function generateWorks(displayedWorks) {
+function generateWorks(displayedWorks) {
     clearWorks();
     createWorksElements(displayedWorks, "portfolio");
     createWorksElements(displayedWorks, "modal");
@@ -65,7 +65,7 @@ const responseCategories = await fetch('http://localhost:5678/api/categories/');
 const categories = await responseCategories.json();
 
 //Génération des boutons de filtrage
-async function generateCategories() {
+function generateCategories() {
     //Récupération emplacement du DOM pour la création des éléments
     const filters = document.querySelector('.filters');
     for (let i = 0; i < categories.length; i++) {

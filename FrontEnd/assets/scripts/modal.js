@@ -152,7 +152,7 @@ const previewImage = function (e) {
 };
 
 //Génération de la liste des catégories pour l'ajout de projets
-async function generateCategoryOptions() {
+function generateCategoryOptions() {
     const select = document.querySelector('#category');
     for (let i = 0; i < categories.length; i++) {
         const category = categories[i];
